@@ -20,17 +20,17 @@ spec:
         ports:
         - name: app-port # Identifier for the container's port configuration
           containerPort: 8080 # Port where the application listens inside the container
-          
+
       initContainers: # Initialization containers that must complete before the main app container starts
       - name: init-mydb # Init container to wait for the database service to be ready
         image: busybox # Minimal image used for simple commands
         command: 
           - sh 
           - -c 
-          - 'until nslookup db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo "waiting for database"; sleep 2; done;' # Waits until the database service is resolvable
+          - 'until nslookup db-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo "waiting for database"; sleep 2; done;' # Waits until the database service is resolvable
       - name: init-memcache # Init container to wait for the Memcached service to be ready
         image: busybox # Minimal image used for simple commands
         command: 
           - sh 
           - -c 
-          - 'until nslookup mcache.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo "waiting for Memcached"; sleep 2; done;' # Waits until the Memcached service is resolvable
+          - 'until nslookup mcache-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo "waiting for Memcached"; sleep 2; done;' # Waits until the Memcached service is resolvable
