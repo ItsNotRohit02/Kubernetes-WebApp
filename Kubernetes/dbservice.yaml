@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: db-service # Name of the Service resource
+  name: db # Name of the Service resource
 spec:
   ports:
   - port: 3306 # Port that will be exposed within the cluster
