@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app # Name of the Deployment resource
+  labels:  
+    app: app # Label used to identify the Deployment
+spec:
+  replicas: 1 # Number of desired pod replicas
+  selector:
+    matchLabels:
+      app: app # Selector to match pods with this label
+  template:
+    metadata:
+      labels:
+        app: app # Label assigned to each pod managed by this Deployment
+    spec:
+      containers:
+      - name: app # Name of the main application container
+        image: itsnotrohit/webapp-tomcat # Container image for the web application running on Tomcat
+        ports:
+        - name: app-port # Identifier for the container's port configuration
+          containerPort: 8080 # Port where the application listens inside the container
+          
+      initContainers: # Initialization containers that must complete before the main app container starts
+      - name: init-mydb # Init container to wait for the database service to be ready
+        image: busybox # Minimal image used for simple commands
+        command: 
+          - sh 
+          - -c 
+          - 'until nslookup db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo "waiting for database"; sleep 2; done;' # Waits until the database service is resolvable
+      - name: init-memcache # Init container to wait for the Memcached service to be ready
+        image: busybox # Minimal image used for simple commands
+        command: 
+          - sh 
+          - -c 
+          - 'until nslookup mcache.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo "waiting for Memcached"; sleep 2; done;' # Waits until the Memcached service is resolvable

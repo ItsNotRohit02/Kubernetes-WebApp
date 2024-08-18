@@ -1,0 +1,45 @@
+services:
+  db:
+    image: itsnotrohit/webapp-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root-password
+
+  mcache:
+    image: memcached
+    ports:
+      - "11211:11211"
+
+  rmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  app:
+    image: itsnotrohit/webapp-tomcat
+    ports:
+      - "8080:8080"
+    volumes: 
+      - appdata:/usr/local/tomcat/webapps
+    depends_on:
+      - db
+      - mcache
+      - rmq
+
+  web:
+    image: itsnotrohit/webapp-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
+volumes:
+  dbdata: {}
+  appdata: {}
