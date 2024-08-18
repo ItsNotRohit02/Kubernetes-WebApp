@@ -39,7 +39,7 @@ spec:
       volumes:
         - name: database-volume # Persistent volume to store database data
           awsElasticBlockStore:
-             volumeID: vol-0c34e6b9ffced607c # The unique identifier of the EBS volume
+             volumeID: EBSVolumeIDHere # The unique identifier of the EBS volume
              fsType: ext4 # Filesystem type of the EBS volume
 
       initContainers: # Initialization container to clean up leftover files from EBS formatting
