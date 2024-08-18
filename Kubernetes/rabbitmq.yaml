@@ -20,8 +20,6 @@ spec:
         ports:
         - name: rmq-port # Identifier for RabbitMQ ports
           containerPort: 5672 # Port used for RabbitMQ messaging protocol (AMQP)
-        - name: rmq-port # Identifier for RabbitMQ ports
-          containerPort: 15672 # Port used for RabbitMQ management UI
         env: 
          - name: RABBITMQ_DEFAULT_PASS # Environment variable for the default RabbitMQ password
            valueFrom:
