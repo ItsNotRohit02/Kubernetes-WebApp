@@ -7,9 +7,6 @@ spec:
   - port: 5672 # Port exposed within the cluster for RabbitMQ messaging (AMQP protocol)
     targetPort: 5672 # The port on the pod that the traffic will be forwarded to (matches the container port in the Deployment)
     protocol: TCP # Protocol used for RabbitMQ messaging (standard for AMQP)
-  - port: 15672 # Port exposed within the cluster for the RabbitMQ management UI
-    targetPort: 15672 # The port on the pod that the traffic will be forwarded to (matches the container port in the Deployment)
-    protocol: TCP # Protocol used for management UI access
   selector:
     app: rmq # Selector that matches the label of the RabbitMQ pods this service should route traffic to
   type: ClusterIP # Service type that exposes RabbitMQ only within the cluster (default type)
