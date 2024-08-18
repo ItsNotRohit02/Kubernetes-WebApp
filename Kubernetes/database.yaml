@@ -34,7 +34,7 @@ spec:
                key: db-password # The specific key within the secret for the root password
 
       nodeSelector:
-        zone: us-east-1a # Ensures the pod runs only on nodes in the 'us-east-1a' zone where the EBS volume is located
+        zone: us-east-1a # Ensures the pod runs only on nodes with label zone=us-east-1a as 'us-east-1a' is where the EBS volume is located
 
       volumes:
         - name: database-volume # Persistent volume to store database data
